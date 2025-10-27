@@ -330,3 +330,18 @@ DELIMITER ;
 
 -- Call procedure
 CALL DisplayHighEarners();
+
+
+START TRANSACTION;
+DELETE FROM Customer WHERE CustID = 1;
+ROLLBACK;
+
+-- Example 2: With SAVEPOINT
+START TRANSACTION;
+INSERT INTO Customer VALUES (4, 'David', 'Bangalore', 8000.00);
+SAVEPOINT SP1;
+INSERT INTO Customer VALUES (5, 'Eva', 'Chennai', 9000.00);
+SAVEPOINT SP2;
+INSERT INTO Customer VALUES (6, 'Frank', 'Kolkata', 7500.00);
+ROLLBACK TO SP2;  -- Undo only last insert
+COMMIT;
