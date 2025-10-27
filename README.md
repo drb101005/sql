@@ -190,7 +190,6 @@ WHERE EmpID = 2;
 -- Drop view
 DROP VIEW EmployeeView;
 
-
 -- ===============================================
 -- 8. TCL - CUSTOMER TABLE
 -- ===============================================
@@ -208,10 +207,12 @@ INSERT INTO Customer VALUES (3, 'Charlie', 'Pune', 6000.00);
 COMMIT;
 
 -- ROLLBACK example
+START TRANSACTION;
 DELETE FROM Customer WHERE CustID = 1;
 ROLLBACK;
 
 -- SAVEPOINT example
+START TRANSACTION;
 INSERT INTO Customer VALUES (4, 'David', 'Bangalore', 8000.00);
 SAVEPOINT SP1;
 
@@ -244,10 +245,12 @@ INSERT INTO Orders VALUES (3, 'Tom', 'Tablet', 20000);
 COMMIT;
 
 -- Delete and rollback
+START TRANSACTION;
 DELETE FROM Orders WHERE OrderID = 2;
 ROLLBACK;
 
 -- Insert with savepoints
+START TRANSACTION;
 INSERT INTO Orders VALUES (4, 'Alice', 'Monitor', 15000);
 SAVEPOINT SP1;
 
@@ -331,17 +334,6 @@ DELIMITER ;
 -- Call procedure
 CALL DisplayHighEarners();
 
-
-START TRANSACTION;
-DELETE FROM Customer WHERE CustID = 1;
-ROLLBACK;
-
--- Example 2: With SAVEPOINT
-START TRANSACTION;
-INSERT INTO Customer VALUES (4, 'David', 'Bangalore', 8000.00);
-SAVEPOINT SP1;
-INSERT INTO Customer VALUES (5, 'Eva', 'Chennai', 9000.00);
-SAVEPOINT SP2;
 INSERT INTO Customer VALUES (6, 'Frank', 'Kolkata', 7500.00);
 ROLLBACK TO SP2;  -- Undo only last insert
 COMMIT;
